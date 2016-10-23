@@ -1,0 +1,65 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
+
+    defaultConfig {
+        applicationId "com.test.mwigzell.test"
+        minSdkVersion 18
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+final DAGGER_VERSION = '2.0'
+final DEXMAKER_VERSION = '1.0'
+
+configurations.all {
+    resolutionStrategy.force 'com.android.support:support-annotations:24.2.1'
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    wearApp project(':wear')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.google.android.gms:play-services:9.4.0'
+    compile 'com.android.support:support-v4:24.2.1'
+
+    // dagger framework
+    compile "com.google.dagger:dagger:${DAGGER_VERSION}"
+    apt "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
+    provided 'javax.annotation:jsr250-api:1.0'
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    // android test support
+
+    androidTestApt "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
+
+    // Mockito unit test framework
+    androidTestCompile "com.google.dexmaker:dexmaker:${DEXMAKER_VERSION}"
+    androidTestCompile "com.google.dexmaker:dexmaker-mockito:${DEXMAKER_VERSION}"
+    androidTestCompile 'org.mockito:mockito-core:1.9.5'
+    androidTestCompile 'org.hamcrest:hamcrest-core:1.3'
+
+    // Junit4 test framework
+    testCompile 'junit:junit:4.12'
+    //testCompile 'com.google.truth:truth:0.25'
+
+    // test support
+    androidTestCompile 'com.android.support.test:runner:0.4'
+    androidTestCompile 'com.android.support.test:rules:0.4'
+    /*androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'*/
+    /*androidTestCompile 'com.android.support.test.espresso:espresso-core:2.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.1'*/
+
+}
