@@ -4,7 +4,7 @@ package com.test.mwigzell.top10;
  * Created by mark on 11/8/16.
  */
 
-public class BinaryTree {
+public class IsBinaryTreeFull {
     public boolean isFull(Node tree) {
         boolean rc = false;
 

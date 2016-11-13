@@ -2,18 +2,18 @@ package com.test.mwigzell.test.top10;
 
 import org.junit.Test;
 
-import com.test.mwigzell.top10.BinaryTree;
+import com.test.mwigzell.top10.IsBinaryTreeFull;
 import com.test.mwigzell.top10.Node;
 
 /**
  * Created by mark on 11/8/16.
  */
 
-public class BinaryTreeTest {
+public class IsBinaryTreeFullTest {
     @Test
     public void testIsFull()
     {
-        BinaryTree tree = new BinaryTree();
+        IsBinaryTreeFull tree = new IsBinaryTreeFull();
         Node root;
         root = new Node(10);
         root.left = new Node(20);

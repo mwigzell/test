@@ -20,8 +20,8 @@ public class ConvertTreeToDLL {
         leftLast.right = right;
         right.left = leftLast;
 
-        left.left = rightLast;
         rightLast.right = left;
+        left.left = rightLast;
 
         return left;
     }
