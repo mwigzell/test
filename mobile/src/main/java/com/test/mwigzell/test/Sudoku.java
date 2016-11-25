@@ -1,5 +1,6 @@
-package com.test.mwigzell.cracking;
+package com.test.mwigzell.test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -8,10 +9,10 @@ import java.util.Random;
  */
 
 public class Sudoku {
-    static final int BOARD_MAX = 9;
+    static final int QUADRANT_MAX = Quadrant.QUADRANT_MAX;
+    static final int BOARD_MAX = QUADRANT_MAX * QUADRANT_MAX;
     static final int MOVES_MAX = BOARD_MAX * BOARD_MAX;
-    static final int QUADRANT_MAX = 3;
-    static final int EMPTY = -1;
+    static final int EMPTY = Quadrant.EMPTY;
 
     int[][] board;
     int moves;
@@ -19,10 +20,41 @@ public class Sudoku {
     int lowestUnmove;
     Random random;
 
+    Quadrant[][] quadrants = new Quadrant[QUADRANT_MAX][QUADRANT_MAX];
+
+    void initQuadrants() {
+        for (int r = 0; r < QUADRANT_MAX; r++) {
+            for (int c = 0; c < QUADRANT_MAX; c++) {
+                quadrants[r][c] = new Quadrant(board, r, c);
+            }
+        }
+    }
+
     public Sudoku() {
         board = new int[BOARD_MAX][BOARD_MAX];
-        clear();
+        quadrants = new Quadrant[QUADRANT_MAX][QUADRANT_MAX];
+        initQuadrants();
         random = new Random();
+        clear();
+    }
+
+    int toQuadrant(int index) {
+        int i = (index / QUADRANT_MAX);
+        if (i < 0 || i > (QUADRANT_MAX - 1)) {
+            index = index;
+        }
+        return i;
+    }
+
+    /**
+     * Enumerate and constrain all quadrants to the board values
+     */
+    void constrainQuadrants() {
+        for (int r = 0; r < QUADRANT_MAX; r++) {
+            for (int c = 0; c < QUADRANT_MAX; c++) {
+                quadrants[toQuadrant(r)][toQuadrant(c)].constrainValues();
+            }
+        }
     }
 
     public void clear() {
@@ -31,53 +63,85 @@ public class Sudoku {
                 board[i][j] = EMPTY;
             }
         }
+        constrainQuadrants();
         moves = highestMove = lowestUnmove = 0;
-
     }
 
     public int moveNumber() {
         return moves;
     }
 
-    public boolean isLegalMove(int x, int y, int value) {
+    public boolean isLegalMove(int r, int c, int value) {
         boolean rc = false;
-        if ( board[x][y] == EMPTY) {
+        if ( board[r][c] == EMPTY) {
             // check column for duplicate
             for (int i = 0; i < BOARD_MAX; i++) {
-                if (board[x][i] == value) {
+                if (board[r][i] == value) {
                     return false;
                 }
             }
             // check row for duplicate
             for (int i = 0; i < BOARD_MAX; i++) {
-                if (board[i][y] == value) {
+                if (board[i][c] == value) {
                    return false;
                 }
             }
             // check quadrant for duplicate
+            if (!quadrants[toQuadrant(r)][toQuadrant(c)].isLegalValue(value)) {
+                return false;
+            }
             rc = true;
         }
         return rc;
     }
 
-    public void move(int x, int y, int value) {
-        board[x][y] = value;
+    /**
+     * A new value is being placed on the board: reconstrain the affected row, column and quadrants
+     * @param r
+     * @param c
+     * @param value
+     */
+    void addConstraint(int r, int c, int value) {
+        //row and column constraints are not implemented
+        quadrants[toQuadrant(r)][toQuadrant(c)].addConstraint(value);
+    }
+
+    /**
+     * A value is being removed from the board: reconstrain the affected row, column and quadrants
+     * @param r
+     * @param c
+     * @param value
+     */
+    void removeConstraint(int r, int c, int value) {
+        //row and column constraints are not implemented
+        quadrants[toQuadrant(r)][toQuadrant(c)].removeConstraint(value);
+    }
+
+    public void move(int r, int c, int value) {
+        // push move
+        board[r][c] = value;
         moves++;
+        addConstraint(r, c, value);
+
         if (moves > highestMove) {
             highestMove = moves;
-            System.out.println("High water mark=" + moves + " x=" + x + " y=" + y + " value=" + value);
+            System.out.println("High water mark=" + moves + " r=" + r + " c=" + c + " value=" + value);
             printBoard();
         }
     }
 
-    public void unmove(int x, int y) {
+    public void unmove(int r, int c) {
         if (lowestUnmove == 0 || moves < lowestUnmove) {
             lowestUnmove = moves;
-            System.out.println("Unmove=" + moves + " x=" + x + " y=" + y + " value=" + board[x][y]);
+            System.out.println("Unmove=" + moves + " r=" + r + " c=" + c + " value=" + board[r][c]);
         }
 
-        board[x][y] = EMPTY;
+        // pop move
+        int v = board[r][c];
+        board[r][c] = EMPTY;
+        removeConstraint(r, c, v);
         moves--;
+
     }
 
     public boolean isGameOver() {
@@ -91,14 +155,14 @@ public class Sudoku {
     public boolean playNext() {
         boolean played = false;
         while(!played) {
-            int x = random.nextInt(BOARD_MAX);
-            int y = random.nextInt(BOARD_MAX);
+            int r = random.nextInt(BOARD_MAX);
+            int c = random.nextInt(BOARD_MAX);
             int value;
             while ((value = random.nextInt(BOARD_MAX + 1)) == 0) {
                 ;
             }
-            if (isLegalMove(x, y, value)) {
-                move(x, y, value);
+            if (isLegalMove(r, c, value)) {
+                move(r, c, value);
                 played = true;
             }
         }
