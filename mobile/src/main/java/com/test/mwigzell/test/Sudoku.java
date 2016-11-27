@@ -56,9 +56,6 @@ public class Sudoku {
 
     int toQuadrant(int index) {
         int i = (index / QUADRANT_MAX);
-        if (i < 0 || i > (QUADRANT_MAX - 1)) {
-            index = index;
-        }
         return i;
     }
 
@@ -279,7 +276,7 @@ public class Sudoku {
         }
         for (int r = lr; r < BOARD_MAX; r++) {
             for (int c = lc; c < BOARD_MAX; c++) {
-                if (count[r][c] > 0) {
+                if (board[r][c] == EMPTY && count[r][c] > 0) {
                     if (count[r][c] < leastAvailable) {
                         leastAvailable = count[r][c];
                         ArrayList<Integer> moveValues = new ArrayList<>();
@@ -289,9 +286,9 @@ public class Sudoku {
                                 moveValues.add(i);
                             }
                         }
-                        if (count[r][c] != moveValues.size()) {
+                        /*if (count[r][c] != moveValues.size()) {
                             int stop = r;
-                        }
+                        }*/
                         leastMove = new Move(r, c, moveValues);
                     }
                 }
