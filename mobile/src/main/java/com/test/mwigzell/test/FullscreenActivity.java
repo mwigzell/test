@@ -168,4 +168,22 @@ public class FullscreenActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.editText);
         textView.setText("Hello, " + editText.getText().toString() + "!");
     }
+
+    public void playSudoku(View v) {
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                Sudoku sudoku = new Sudoku();
+                sudoku.playUntil(65);
+
+                System.out.println("Moves taken=" + sudoku.moveNumber());
+                sudoku.printBoard();
+                boolean solved = sudoku.solve();
+                System.out.println("Solved=" + solved);
+            }
+        };
+
+        t.start();
+    }
 }

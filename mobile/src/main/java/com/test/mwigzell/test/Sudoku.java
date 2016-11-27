@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import static junit.framework.Assert.assertTrue;
+
 /**
  * Created by mwigzell on 11/23/16.
  */
@@ -20,9 +22,21 @@ public class Sudoku {
     int lowestUnmove;
     Random random;
 
-    Quadrant[][] quadrants = new Quadrant[QUADRANT_MAX][QUADRANT_MAX];
+    Quadrant[][] quadrants;
+    int[][][] values;
+    int[][] count;
+
+    void initValues() {
+        values = new int[BOARD_MAX][BOARD_MAX][9+1]; // row/col constraints
+        for (int r = 0; r < BOARD_MAX; r++) {
+            for (int c = 0; c < BOARD_MAX; c++) {
+                Arrays.fill(values[r][c], 0);
+            }
+        }
+    }
 
     void initQuadrants() {
+        quadrants = new Quadrant[QUADRANT_MAX][QUADRANT_MAX];
         for (int r = 0; r < QUADRANT_MAX; r++) {
             for (int c = 0; c < QUADRANT_MAX; c++) {
                 quadrants[r][c] = new Quadrant(board, r, c);
@@ -32,8 +46,9 @@ public class Sudoku {
 
     public Sudoku() {
         board = new int[BOARD_MAX][BOARD_MAX];
-        quadrants = new Quadrant[QUADRANT_MAX][QUADRANT_MAX];
+        initValues();
         initQuadrants();
+        count = new int[BOARD_MAX][BOARD_MAX];
         random = new Random();
         clear();
     }
@@ -74,17 +89,8 @@ public class Sudoku {
     public boolean isLegalMove(int r, int c, int value) {
         boolean rc = false;
         if ( board[r][c] == EMPTY) {
-            // check column for duplicate
-            for (int i = 0; i < BOARD_MAX; i++) {
-                if (board[r][i] == value) {
-                    return false;
-                }
-            }
-            // check row for duplicate
-            for (int i = 0; i < BOARD_MAX; i++) {
-                if (board[i][c] == value) {
-                   return false;
-                }
+            if (values[r][c][value] > 0) {
+                return false; // value is already constrained for this cell
             }
             // check quadrant for duplicate
             if (!quadrants[toQuadrant(r)][toQuadrant(c)].isLegalValue(value)) {
@@ -93,6 +99,16 @@ public class Sudoku {
             rc = true;
         }
         return rc;
+    }
+
+    void count(int r, int c) {
+        count[r][c] = 0;
+        for (int i = 1; i < 10; i++) {
+            int v = values[r][c][i];
+            if (v == 0 && quadrants[toQuadrant(r)][toQuadrant(c)].isLegalValue(i)) {
+                count[r][c]++;
+            }
+        }
     }
 
     /**
@@ -104,6 +120,20 @@ public class Sudoku {
     void addConstraint(int r, int c, int value) {
         //row and column constraints are not implemented
         quadrants[toQuadrant(r)][toQuadrant(c)].addConstraint(value);
+        // constrain all cells in the current row to the value for this cell
+        for (int i = 0; i < BOARD_MAX; i++) {
+            values[r][i][value] += 1;
+            count(r, i);
+        }
+
+        // constrain all cells in the current col to the value for this cell
+        for (int i = 0; i < BOARD_MAX; i++) {
+            // don't add the current column again, since it was added for the cell row above
+            if (i != r) {
+                values[i][c][value] += 1;
+                count(i, c);
+            }
+        }
     }
 
     /**
@@ -115,6 +145,21 @@ public class Sudoku {
     void removeConstraint(int r, int c, int value) {
         //row and column constraints are not implemented
         quadrants[toQuadrant(r)][toQuadrant(c)].removeConstraint(value);
+
+        // unconstrain all cells in the current row for the (removed) value of this cell
+        for (int i = 0; i < BOARD_MAX; i++) {
+            values[r][i][value] -= 1;
+            count(r, i);
+        }
+
+        // unconstrain all cells in the current col for the (removed) value of this cell
+        for (int i = 0; i < BOARD_MAX; i++) {
+            // don't subtract the current column again, since it was subtracted for the cell row above
+            if (i != r) {
+                values[i][c][value] -= 1;
+                count(i, c);
+            }
+        }
     }
 
     public void move(int r, int c, int value) {
@@ -146,6 +191,16 @@ public class Sudoku {
 
     public boolean isGameOver() {
         return moves == MOVES_MAX;
+    }
+
+    public void loadPuzzle(int[][] puzzle) {
+        for (int r = 0; r < BOARD_MAX; r++) {
+            for (int c = 0; c < BOARD_MAX; c++) {
+                if (puzzle[r][c] != 0) {
+                    move(r, c, puzzle[r][c]);
+                }
+            }
+        }
     }
 
     /**
@@ -190,29 +245,88 @@ public class Sudoku {
         return moves == moveNumber;
     }
 
+    class Move {
+        int r, c;
+        ArrayList<Integer> values = new ArrayList<>();
+        public Move(int r, int c, ArrayList values) {
+            this.r = r;
+            this.c = c;
+            this.values = values;
+        }
+    }
+
+    // find best move: the one with fewest legal candidate values since this keeps search tree narrow.
+    Move findBestMove(Move last) {
+        int leastAvailable = 99;
+        int lr = 0;
+        int lc = 0;
+        Move leastMove = null;
+
+        if (last != null) {
+            lr = last.r;
+            lc = last.c;
+            // increment past last move:
+            if (lc < BOARD_MAX) {
+                lc++;
+            } else if (lr < BOARD_MAX){
+                lr++;
+                lc = 0;
+            } else {
+                System.out.println("Reached end of moves at level=" + moves);
+                return null;
+            }
+        }
+        for (int r = lr; r < BOARD_MAX; r++) {
+            for (int c = lc; c < BOARD_MAX; c++) {
+                ArrayList<Integer> moveValues = new ArrayList<>();
+                for (int i = 1; i < 10; i++) {
+                    int v = values[r][c][i];
+                    if (v == 0 && isLegalMove(r, c, i)) {
+                        moveValues.add(i);
+                    }
+                }
+                if (moveValues.size() != count[r][c]) {
+                    r = r;
+                }
+
+                if (moveValues.size() > 0) {
+                    if (moveValues.size() < leastAvailable) {
+                        leastAvailable = moveValues.size();
+                        leastMove = new Move(r, c, moveValues);
+                    }
+                }
+            }
+        }
+        if (leastMove != null)
+            System.out.println("findBestMove: moves=" + moves + " r=" + leastMove.r + " c=" + leastMove.c);
+        else
+            System.out.println("findBestMove: moves=" + moves + " NO MOVE!!");
+        return leastMove;
+    }
+
     public boolean solve() {
         //System.out.println("Entered solve() moves=" + moves);
         boolean solved = false;
 
         if (isGameOver()) {
+            System.out.println("GAME OVER!");
             printBoard();
-            return solved;
+            return true;
         }
-        for (int r = 0; r < BOARD_MAX; r++) {
-            for (int c = 0; c < BOARD_MAX; c++) {
-                for (int v = 1; v < (BOARD_MAX + 1); v++) {
-                    if (isLegalMove(r, c, v)) {
-                        move(r, c, v);
-                        solved = solve();
-                        if (!solved) {
-                            unmove(r, c);
-                        } else {
-                            return solved;
-                        }
-                    }
+
+        Move move = null;
+        while((move = findBestMove(move)) != null) {
+            for (Integer v : move.values) {
+                move(move.r, move.c, v);
+                solved = solve();
+                if (!solved) {
+                    unmove(move.r, move.c);
+                } else {
+                    return solved;
                 }
             }
         }
+
         return solved;
     }
 }

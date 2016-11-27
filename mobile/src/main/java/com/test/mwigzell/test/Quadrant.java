@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 public class Quadrant {
     public static final int QUADRANT_MAX = 3;
-    public static final int EMPTY = -1;
+    public static final int EMPTY = 0;
 
     boolean[] values; // boolean array of values in this quadrant: (1-9), 0 value is not used.
     int[][] board;
