@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 /**
@@ -278,20 +279,19 @@ public class Sudoku {
         }
         for (int r = lr; r < BOARD_MAX; r++) {
             for (int c = lc; c < BOARD_MAX; c++) {
-                ArrayList<Integer> moveValues = new ArrayList<>();
-                for (int i = 1; i < 10; i++) {
-                    int v = values[r][c][i];
-                    if (v == 0 && isLegalMove(r, c, i)) {
-                        moveValues.add(i);
-                    }
-                }
-                if (moveValues.size() != count[r][c]) {
-                    r = r;
-                }
-
-                if (moveValues.size() > 0) {
-                    if (moveValues.size() < leastAvailable) {
-                        leastAvailable = moveValues.size();
+                if (count[r][c] > 0) {
+                    if (count[r][c] < leastAvailable) {
+                        leastAvailable = count[r][c];
+                        ArrayList<Integer> moveValues = new ArrayList<>();
+                        for (int i = 1; i < 10; i++) {
+                            int v = values[r][c][i];
+                            if (v == 0 && isLegalMove(r, c, i)) {
+                                moveValues.add(i);
+                            }
+                        }
+                        if (count[r][c] != moveValues.size()) {
+                            int stop = r;
+                        }
                         leastMove = new Move(r, c, moveValues);
                     }
                 }
