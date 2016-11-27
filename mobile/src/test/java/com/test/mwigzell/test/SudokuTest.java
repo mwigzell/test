@@ -59,7 +59,7 @@ public class SudokuTest {
         System.out.println("Moves taken=" + sudoku.moveNumber());
         sudoku.printBoard();
 
-        Sudoku.Move move = sudoku.findBestMove(null);
+        Sudoku.Move move = sudoku.findBestMove();
         System.out.println("Found move r=" + move.r + " c=" + move.c);
         for (Integer i : move.values) {
             System.out.println("v=" + i);

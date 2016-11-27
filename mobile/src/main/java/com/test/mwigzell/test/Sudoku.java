@@ -254,28 +254,12 @@ public class Sudoku {
     }
 
     // find best move: the one with fewest legal candidate values since this keeps search tree narrow.
-    Move findBestMove(Move last) {
+    Move findBestMove() {
         int leastAvailable = 99;
-        int lr = 0;
-        int lc = 0;
         Move leastMove = null;
 
-        if (last != null) {
-            lr = last.r;
-            lc = last.c;
-            // increment past last move:
-            if (lc < BOARD_MAX) {
-                lc++;
-            } else if (lr < BOARD_MAX){
-                lr++;
-                lc = 0;
-            } else {
-                System.out.println("Reached end of moves at level=" + moves);
-                return null;
-            }
-        }
-        for (int r = lr; r < BOARD_MAX; r++) {
-            for (int c = lc; c < BOARD_MAX; c++) {
+        for (int r = 0; r < BOARD_MAX; r++) {
+            for (int c = 0; c < BOARD_MAX; c++) {
                 if (board[r][c] == EMPTY && count[r][c] > 0) {
                     if (count[r][c] < leastAvailable) {
                         leastAvailable = count[r][c];
@@ -286,9 +270,9 @@ public class Sudoku {
                                 moveValues.add(i);
                             }
                         }
-                        /*if (count[r][c] != moveValues.size()) {
-                            int stop = r;
-                        }*/
+                        if (count[r][c] != moveValues.size()) {
+                            //throw new IllegalStateException("count array out of sync!");
+                        }
                         leastMove = new Move(r, c, moveValues);
                     }
                 }
@@ -312,7 +296,7 @@ public class Sudoku {
         }
 
         Move move = null;
-        while((move = findBestMove(move)) != null) {
+        while((move = findBestMove()) != null) {
             for (Integer v : move.values) {
                 move(move.r, move.c, v);
                 solved = solve();
