@@ -44,11 +44,19 @@
             android:layout_below="@+id/editText"
             android:onClick="sayHello"/>
         <Button
+            android:id="@+id/playSudoku"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Play Sudoku"
             android:layout_below="@+id/sayHello"
             android:onClick="playSudoku"/>
+        <Button
+            android:id="@+id/runRxScheduler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Run Rx"
+            android:layout_below="@+id/playSudoku"
+            />
     </RelativeLayout>
 
     <!-- This FrameLayout insets its children based on system windows using

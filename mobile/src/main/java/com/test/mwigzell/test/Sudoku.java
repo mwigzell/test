@@ -1,5 +1,6 @@
 package com.test.mwigzell.test;
 
+import java.util.PriorityQueue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -243,7 +244,7 @@ public class Sudoku {
         return moves == moveNumber;
     }
 
-    class Move {
+    class Move implements Comparable {
         int r, c;
         ArrayList<Integer> values = new ArrayList<>();
         public Move(int r, int c, ArrayList values) {
@@ -251,42 +252,45 @@ public class Sudoku {
             this.c = c;
             this.values = values;
         }
+
+        @Override
+        public int compareTo(Object o) {
+            Move other = (Move)o;
+            if (values.size() < other.values.size()) {
+                return -1;
+            } else if (values.size() > other.values.size()) {
+                return 1;
+            }
+            return 0;
+        }
     }
 
     // find best move: the one with fewest legal candidate values since this keeps search tree narrow.
-    Move findBestMove() {
-        int leastAvailable = 99;
-        Move leastMove = null;
+    PriorityQueue<Move> findBestMove() {
+        PriorityQueue<Move> q = new PriorityQueue<>();
 
         for (int r = 0; r < BOARD_MAX; r++) {
             for (int c = 0; c < BOARD_MAX; c++) {
                 if (board[r][c] == EMPTY && count[r][c] > 0) {
-                    if (count[r][c] < leastAvailable) {
-                        leastAvailable = count[r][c];
-                        ArrayList<Integer> moveValues = new ArrayList<>();
-                        for (int i = 1; i < 10; i++) {
-                            int v = values[r][c][i];
-                            if (v == 0 && isLegalMove(r, c, i)) {
-                                moveValues.add(i);
-                            }
+                    ArrayList<Integer> moveValues = new ArrayList<>();
+                    for (int i = 1; i < 10; i++) {
+                        int v = values[r][c][i];
+                        if (v == 0 && isLegalMove(r, c, i)) {
+                            moveValues.add(i);
                         }
-                        if (count[r][c] != moveValues.size()) {
-                            //throw new IllegalStateException("count array out of sync!");
-                        }
-                        leastMove = new Move(r, c, moveValues);
                     }
+                    if (count[r][c] != moveValues.size()) {
+                        //throw new IllegalStateException("count array out of sync!");
+                    }
+                    q.add(new Move(r, c, moveValues));
                 }
             }
         }
-        if (leastMove != null)
-            System.out.println("findBestMove: moves=" + moves + " r=" + leastMove.r + " c=" + leastMove.c);
-        else
-            System.out.println("findBestMove: moves=" + moves + " NO MOVE!!");
-        return leastMove;
+
+        return q;
     }
 
     public boolean solve() {
-        //System.out.println("Entered solve() moves=" + moves);
         boolean solved = false;
 
         if (isGameOver()) {
@@ -295,8 +299,8 @@ public class Sudoku {
             return true;
         }
 
-        Move move = null;
-        while((move = findBestMove()) != null) {
+        PriorityQueue<Move> q = findBestMove();
+        for(Move move = null; (move = q.poll()) != null; ) {
             for (Integer v : move.values) {
                 move(move.r, move.c, v);
                 solved = solve();

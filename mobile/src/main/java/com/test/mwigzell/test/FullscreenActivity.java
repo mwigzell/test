@@ -3,12 +3,25 @@ package com.test.mwigzell.test;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.exceptions.OnErrorThrowable;
+import rx.functions.Func0;
+
+import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -70,6 +83,9 @@ public class FullscreenActivity extends AppCompatActivity {
             hide();
         }
     };
+
+    private Looper backgroundLooper;
+
     /**
      * Touch listener to use for in-layout UI controls to delay hiding the
      * system UI. This is to prevent the jarring behavior of controls going away
@@ -108,6 +124,17 @@ public class FullscreenActivity extends AppCompatActivity {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+
+        // RxAndroid sample
+        BackgroundThread backgroundThread = new BackgroundThread();
+        backgroundThread.start();
+        backgroundLooper = backgroundThread.getLooper();
+
+        findViewById(R.id.runRxScheduler).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                onRunSchedulerExampleButtonClicked();
+            }
+        });
     }
 
     @Override
@@ -185,5 +212,48 @@ public class FullscreenActivity extends AppCompatActivity {
         };
 
         t.start();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////
+    static final String TAG = "RX";
+    void onRunSchedulerExampleButtonClicked() {
+        sampleObservable()
+                // Run on a background thread
+                .subscribeOn(AndroidSchedulers.from(backgroundLooper))
+                // Be notified on the main thread
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override public void onCompleted() {
+                        Log.d(TAG, "onCompleted()");
+                    }
+
+                    @Override public void onError(Throwable e) {
+                        Log.e(TAG, "onError()", e);
+                    }
+
+                    @Override public void onNext(String string) {
+                        Log.d(TAG, "onNext(" + string + ")");
+                    }
+                });
+    }
+
+    static Observable<String> sampleObservable() {
+        return Observable.defer(new Func0<Observable<String>>() {
+            @Override public Observable<String> call() {
+                try {
+                    // Do some long running operation
+                    Thread.sleep(TimeUnit.SECONDS.toMillis(5));
+                } catch (InterruptedException e) {
+                    throw OnErrorThrowable.from(e);
+                }
+                return Observable.just("one", "two", "three", "four", "five");
+            }
+        });
+    }
+
+    static class BackgroundThread extends HandlerThread {
+        BackgroundThread() {
+            super("SchedulerSample-BackgroundThread", THREAD_PRIORITY_BACKGROUND);
+        }
     }
 }

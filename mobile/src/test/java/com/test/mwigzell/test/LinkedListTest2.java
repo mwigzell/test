@@ -1,13 +1,12 @@
 package com.test.mwigzell.test;
 
-import com.test.mwigzell.LinkedList;
+import com.test.mwigzell.LinkedList2;
 
 import org.junit.Test;
 
 import java.util.Iterator;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
@@ -15,10 +14,10 @@ import static junit.framework.Assert.assertTrue;
  * Created by mark on 11/16/16.
  */
 
-public class LinkedListTest {
+public class LinkedListTest2 {
     @Test
     public void test() {
-        LinkedList<String> list = new LinkedList<>();
+        LinkedList2<String> list = new LinkedList2<>();
         list.add("hello");
         list.add("mark");
 
@@ -33,7 +32,7 @@ public class LinkedListTest {
 
     @Test
     public void testIterator() {
-        LinkedList<String> list = new LinkedList<>();
+        LinkedList2<String> list = new LinkedList2<>();
         list.add("hello");
         list.add("mark");
 
@@ -48,10 +47,21 @@ public class LinkedListTest {
 
     @Test
     public void testRemoveOnEmpty() {
-        LinkedList<String> list = new LinkedList<>();
+        LinkedList2<String> list = new LinkedList2<>();
         String val = list.remove(0);
 
         assertNull(val);
+        assertTrue(list.size() == 0);
+    }
+
+    @Test
+    public void testRemoveAll() {
+        LinkedList2<String> list = new LinkedList2<>();
+        list.add("hello");
+        list.add("mark");
+        list.remove(0);
+        list.remove(0);
+
         assertTrue(list.size() == 0);
     }
 }

@@ -114,11 +114,10 @@ public class DijkstraAlgorithm {
         if (predecessors.get(step) == null) {
             return null;
         }
-        path.add(step);
-        while (predecessors.get(step) != null) {
-            step = predecessors.get(step);
+        do {
             path.add(step);
-        }
+        } while ((step = predecessors.get(step)) != null);
+
         // Put it into the correct order
         Collections.reverse(path);
         return path;

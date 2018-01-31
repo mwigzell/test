@@ -13,7 +13,7 @@ public class BinarySearchTest {
     @Test
     public void testContains() {
         int[]a = {1, 2, 3, 4, 5, 7, 17,  19 };
-//                assertTrue(BinarySearch.contains(a, 17));
+        assertTrue(BinarySearch.contains(a, 17));
         assertTrue(BinarySearch.contains(a, 1));
         assertTrue(BinarySearch.contains(a, 2));
         assertTrue(BinarySearch.contains(a, 3));

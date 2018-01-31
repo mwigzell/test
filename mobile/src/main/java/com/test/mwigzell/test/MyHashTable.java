@@ -35,6 +35,7 @@ public class MyHashTable<K, V> {
                 if (t.key.equals(k)) {
                     t.val = v;
                     found = true;
+                    break;
                 }
             }
             if (!found) {
@@ -53,6 +54,7 @@ public class MyHashTable<K, V> {
             for (Tuple t : buckets[i]) {
                 if (t.key.equals(key)) {
                     rc = (V)t.val;
+                    break;
                 }
             }
         }

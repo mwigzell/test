@@ -2,6 +2,7 @@ package com.test.mwigzell.test;
 
 import com.test.mwigzell.test.Sudoku;
 
+import java.util.PriorityQueue;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertFalse;
@@ -59,10 +60,13 @@ public class SudokuTest {
         System.out.println("Moves taken=" + sudoku.moveNumber());
         sudoku.printBoard();
 
-        Sudoku.Move move = sudoku.findBestMove();
-        System.out.println("Found move r=" + move.r + " c=" + move.c);
-        for (Integer i : move.values) {
-            System.out.println("v=" + i);
+        PriorityQueue<Sudoku.Move> q = sudoku.findBestMove();
+        Sudoku.Move move;
+        while((move = q.poll()) != null) {
+            System.out.println("Found move r=" + move.r + " c=" + move.c);
+            for (Integer i : move.values) {
+                System.out.println("v=" + i);
+            }
         }
     }
 

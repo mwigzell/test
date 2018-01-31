@@ -14,8 +14,8 @@ import static org.junit.Assert.fail;
 public class HeapsortTest {
 
     private int[] numbers;
-    private final static int SIZE = 7;
-    private final static int MAX = 20;
+    private final static int SIZE = 2000;
+    private final static int MAX = 99;
 
     @Before
     public void setUp() throws Exception {
