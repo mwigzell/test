@@ -1,6 +1,7 @@
 package com.test.mwigzell.test.vogella;
 
 import com.test.mwigzell.vogella.DijkstraAlgorithm;
+import com.test.mwigzell.vogella.DijkstraShortestPath;
 import com.test.mwigzell.vogella.Edge;
 import com.test.mwigzell.vogella.Graph;
 import com.test.mwigzell.vogella.Vertex;
@@ -19,8 +20,13 @@ public class DijkstraAlgorithmTest {
     private List<Vertex> nodes;
     private List<Edge> edges;
 
-    @Test
-    public void testExcute() {
+    private void addLane(String laneId, int sourceLocNo, int destLocNo,
+                         int duration) {
+        Edge lane = new Edge(laneId,nodes.get(sourceLocNo), nodes.get(destLocNo), duration );
+        edges.add(lane);
+    }
+
+    Graph buildGraph() {
         nodes = new ArrayList<Vertex>();
         edges = new ArrayList<Edge>();
         for (int i = 0; i < 11; i++) {
@@ -43,6 +49,12 @@ public class DijkstraAlgorithmTest {
 
         // Lets check from location Loc_1 to Loc_10
         Graph graph = new Graph(nodes, edges);
+        return graph;
+    }
+
+    @Test
+    public void testExcute() {
+        Graph graph = buildGraph();
         DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
         dijkstra.execute(nodes.get(0));
         LinkedList<Vertex> path = dijkstra.getPath(nodes.get(10));
@@ -56,9 +68,18 @@ public class DijkstraAlgorithmTest {
 
     }
 
-    private void addLane(String laneId, int sourceLocNo, int destLocNo,
-                         int duration) {
-        Edge lane = new Edge(laneId,nodes.get(sourceLocNo), nodes.get(destLocNo), duration );
-        edges.add(lane);
+    @Test
+    public void testShortestPath() {
+        Graph graph = buildGraph();
+        DijkstraShortestPath dijkstra = new DijkstraShortestPath(graph);
+        LinkedList<Vertex> path = dijkstra.execute(nodes.get(0), nodes.get(10));
+
+        assertNotNull(path);
+        assertTrue(path.size() > 0);
+
+        for (Vertex vertex : path) {
+            System.out.println(vertex);
+        }
+
     }
 }

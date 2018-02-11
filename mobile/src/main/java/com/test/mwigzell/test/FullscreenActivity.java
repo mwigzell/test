@@ -13,13 +13,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.reactivestreams.Subscriber;
+
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.exceptions.OnErrorThrowable;
-import rx.functions.Func0;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 
 import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
 
@@ -222,30 +223,22 @@ public class FullscreenActivity extends AppCompatActivity {
                 .subscribeOn(AndroidSchedulers.from(backgroundLooper))
                 // Be notified on the main thread
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
-                    @Override public void onCompleted() {
-                        Log.d(TAG, "onCompleted()");
+                .subscribe(new Consumer<String>() {
+                        public void accept(String s) {
+                            Log.d(TAG, "onCompleted()");
+                        }
+                    }, error -> {
+                        Log.e(TAG, "onError()", error);
                     }
-
-                    @Override public void onError(Throwable e) {
-                        Log.e(TAG, "onError()", e);
-                    }
-
-                    @Override public void onNext(String string) {
-                        Log.d(TAG, "onNext(" + string + ")");
-                    }
-                });
+                );
     }
 
     static Observable<String> sampleObservable() {
-        return Observable.defer(new Func0<Observable<String>>() {
-            @Override public Observable<String> call() {
-                try {
-                    // Do some long running operation
-                    Thread.sleep(TimeUnit.SECONDS.toMillis(5));
-                } catch (InterruptedException e) {
-                    throw OnErrorThrowable.from(e);
-                }
+        return Observable.defer(new Callable<Observable<String>>() {
+            @Override public Observable<String> call() throws Exception {
+                // Do some long running operation
+                Thread.sleep(TimeUnit.SECONDS.toMillis(5));
+
                 return Observable.just("one", "two", "three", "four", "five");
             }
         });

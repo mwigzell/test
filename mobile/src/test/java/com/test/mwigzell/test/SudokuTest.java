@@ -47,7 +47,7 @@ public class SudokuTest {
     @Test
     public void testGenerateGame() {
         Sudoku sudoku = new Sudoku();
-        sudoku.playUntil(81);
+        sudoku.playUntil(50);
 
         System.out.println("Moves taken=" + sudoku.moveNumber());
         sudoku.printBoard();
