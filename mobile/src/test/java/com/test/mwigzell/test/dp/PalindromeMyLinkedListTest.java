@@ -12,7 +12,7 @@ import static junit.framework.Assert.assertTrue;
  * Created by mwigzell on 2/4/18.
  */
 
-public class PalindromeLinkedListTest {
+public class PalindromeMyLinkedListTest {
     void printList(ListNode list) {
         while(list != null) {
             System.out.print(list.entry + " ");

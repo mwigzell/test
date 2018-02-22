@@ -47,11 +47,11 @@ public class Quadrant {
         return !values[value];
     }
 
-    void addConstraint(int value) {
+    public void addConstraint(int value) {
         values[value] = true;
     }
 
-    void removeConstraint(int value) {
+    public void removeConstraint(int value) {
         values[value] = false;
     }
 

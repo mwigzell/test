@@ -1,4 +1,7 @@
-package com.test.mwigzell.test;
+package com.test.mwigzell.test.test;
+
+import com.test.mwigzell.test.Quadrant;
+import com.test.mwigzell.test.Sudoku;
 
 import org.junit.Test;
 

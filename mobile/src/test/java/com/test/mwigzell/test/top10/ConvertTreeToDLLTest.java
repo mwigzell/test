@@ -25,7 +25,7 @@ public class ConvertTreeToDLLTest {
         ConvertTreeToDLL tree = new ConvertTreeToDLL();
         Node head = tree.convert(root);
 
-        // Display the Circular LinkedList
+        // Display the Circular MyLinkedList
         tree.display(head);
     }
 }

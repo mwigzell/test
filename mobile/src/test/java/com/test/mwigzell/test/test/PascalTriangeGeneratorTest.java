@@ -1,4 +1,6 @@
-package com.test.mwigzell.test;
+package com.test.mwigzell.test.test;
+
+import com.test.mwigzell.test.PascalTriangleGenerator;
 
 import org.junit.Test;
 

@@ -1,8 +1,8 @@
-package com.test.mwigzell.test;
+package com.test.mwigzell.test.test;
 
 import org.junit.Test;
 
-import com.test.mwigzell.ElevatorTrips;
+import com.test.mwigzell.test.ElevatorTrips;
 
 import static junit.framework.Assert.assertEquals;
 

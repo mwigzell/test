@@ -14,9 +14,9 @@ import static junit.framework.Assert.assertTrue;
 
 public class Sudoku {
     static final int QUADRANT_MAX = Quadrant.QUADRANT_MAX;
-    static final int BOARD_MAX = QUADRANT_MAX * QUADRANT_MAX;
+    public static final int BOARD_MAX = QUADRANT_MAX * QUADRANT_MAX;
     static final int MOVES_MAX = BOARD_MAX * BOARD_MAX;
-    static final int EMPTY = Quadrant.EMPTY;
+    public static final int EMPTY = Quadrant.EMPTY;
 
     int[][] board;
     int moves;
@@ -244,9 +244,9 @@ public class Sudoku {
         return moves == moveNumber;
     }
 
-    class Move implements Comparable {
-        int r, c;
-        ArrayList<Integer> values = new ArrayList<>();
+    public class Move implements Comparable {
+        public int r, c;
+        public ArrayList<Integer> values = new ArrayList<>();
         public Move(int r, int c, ArrayList values) {
             this.r = r;
             this.c = c;
@@ -266,7 +266,7 @@ public class Sudoku {
     }
 
     // find best move: the one with fewest legal candidate values since this keeps search tree narrow.
-    PriorityQueue<Move> findBestMove() {
+    public PriorityQueue<Move> findBestMove() {
         PriorityQueue<Move> q = new PriorityQueue<>();
 
         for (int r = 0; r < BOARD_MAX; r++) {

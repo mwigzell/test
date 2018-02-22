@@ -1,3 +1,15 @@
 # ninja log v5
-0	323	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	6d19cf0c9bbad0d5
-323	423	0	/Users/mwigzell/AndroidStudioProjects/test/mobile/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so	cd31cd8106d8b07b
+9	196	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	b5845ffaa4ed310c
+196	391	0	/home/mark/Dev/src/test/mobile/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so	d80e4af51ae9a3d5
+0	132	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	b5845ffaa4ed310c
+132	302	0	/home/mark/Dev/src/test/mobile/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so	d80e4af51ae9a3d5
+0	149	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	b5845ffaa4ed310c
+149	311	0	/home/mark/Dev/src/test/mobile/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so	d80e4af51ae9a3d5
+1	48	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	b5845ffaa4ed310c
+48	59	0	/home/mark/Dev/src/test/mobile/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so	d80e4af51ae9a3d5
+0	46	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	b5845ffaa4ed310c
+46	57	0	/home/mark/Dev/src/test/mobile/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so	d80e4af51ae9a3d5
+0	49	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	b5845ffaa4ed310c
+49	60	0	/home/mark/Dev/src/test/mobile/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so	d80e4af51ae9a3d5
+0	67	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	b5845ffaa4ed310c
+67	79	0	/home/mark/Dev/src/test/mobile/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-lib.so	d80e4af51ae9a3d5

@@ -1,4 +1,4 @@
-package com.test.mwigzell;
+package com.test.mwigzell.test;
 
 /**
  * Created by mark on 11/8/16.

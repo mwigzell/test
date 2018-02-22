@@ -1,7 +1,5 @@
 package com.test.mwigzell.vogella;
 
-import com.test.mwigzell.LinkedList2;
-
 /**
  * Created by mwigzell on 2/4/18.
  */

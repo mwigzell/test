@@ -1,4 +1,4 @@
-package com.test.mwigzell;
+package com.test.mwigzell.test;
 
 
 // you can also use imports, for example:

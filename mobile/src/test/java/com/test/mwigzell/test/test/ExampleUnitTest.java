@@ -1,4 +1,4 @@
-package com.test.mwigzell.test;
+package com.test.mwigzell.test.test;
 
 import org.junit.Test;
 

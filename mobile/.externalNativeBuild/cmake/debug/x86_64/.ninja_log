@@ -1,3 +1,15 @@
 # ninja log v5
-0	373	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	d6d04c822d40e35
-373	521	0	/Users/mwigzell/AndroidStudioProjects/test/mobile/build/intermediates/cmake/debug/obj/x86_64/libnative-lib.so	7a66668dfeae4a90
+0	1452	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	526c90af3ad3e452
+1453	1707	0	/home/mark/Dev/src/test/mobile/build/intermediates/cmake/debug/obj/x86_64/libnative-lib.so	9865a79698f01ec7
+0	1164	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	526c90af3ad3e452
+1164	1369	0	/home/mark/Dev/src/test/mobile/build/intermediates/cmake/debug/obj/x86_64/libnative-lib.so	9865a79698f01ec7
+13	1388	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	526c90af3ad3e452
+1388	1601	0	/home/mark/Dev/src/test/mobile/build/intermediates/cmake/debug/obj/x86_64/libnative-lib.so	9865a79698f01ec7
+0	58	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	526c90af3ad3e452
+58	68	0	/home/mark/Dev/src/test/mobile/build/intermediates/cmake/debug/obj/x86_64/libnative-lib.so	9865a79698f01ec7
+1	56	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	526c90af3ad3e452
+56	66	0	/home/mark/Dev/src/test/mobile/build/intermediates/cmake/debug/obj/x86_64/libnative-lib.so	9865a79698f01ec7
+0	59	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	526c90af3ad3e452
+59	74	0	/home/mark/Dev/src/test/mobile/build/intermediates/cmake/debug/obj/x86_64/libnative-lib.so	9865a79698f01ec7
+0	55	0	CMakeFiles/native-lib.dir/native-lib.cpp.o	526c90af3ad3e452
+55	69	0	/home/mark/Dev/src/test/mobile/build/intermediates/cmake/debug/obj/x86_64/libnative-lib.so	9865a79698f01ec7

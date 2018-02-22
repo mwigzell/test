@@ -1,4 +1,6 @@
-package com.test.mwigzell.test;
+package com.test.mwigzell.test.test;
+
+import com.test.mwigzell.test.MyHashTable;
 
 import org.junit.Test;
 
@@ -11,7 +13,7 @@ import static junit.framework.Assert.assertEquals;
 public class MyHashTableTest {
     @Test
     public void test() {
-        MyHashTable<String, String> table = new MyHashTable<>(1);
+        MyHashTable<String, String> table = new MyHashTable<>(6);
 
         table.put("hallo", "world");
         table.put("mark", "wigzell");

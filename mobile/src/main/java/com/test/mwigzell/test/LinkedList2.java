@@ -1,4 +1,4 @@
-package com.test.mwigzell;
+package com.test.mwigzell.test;
 
 import java.util.Iterator;
 
@@ -6,7 +6,7 @@ import java.util.Iterator;
  * Created by mark on 11/16/16.
  */
 
-public class LinkedList<E> {
+public class LinkedList2<E> {
     class Node<E> {
         E entry;
         Node<E> next;
@@ -24,19 +24,22 @@ public class LinkedList<E> {
         public void setNext(Node<E> next) { this.next = next; }
     }
 
-    Node<E> head;
-    Node<E> last;
+    Node<E> head = null;
+    Node<E> last = null;
     int size = 0;
 
-    public LinkedList() {
-        head = new Node();
-        last = head;
-        head.setNext(last);
+    public LinkedList2() {
     }
 
     public void add(E entry) {
+        if (size == 0) {
+            head = new Node(entry);
+            last = head;
+            head.setNext(last);
+        }
         last.next = new Node(entry);
         last = last.next;
+
         size++;
     }
 
@@ -66,20 +69,26 @@ public class LinkedList<E> {
     public E remove(int index) {
         E rc = null;
         Node<E> parent = getNodeParent(index);
-        Node<E> item = parent.getNext();
-        if (size != 0 && item != null) {
-            rc = item.getEntry();
-            parent.setNext(item.getNext());
-            size--;
+        if (parent != null) {
+            Node<E> item = parent.getNext();
+            if (size != 0 && item != null) {
+                rc = item.getEntry();
+                parent.setNext(item.getNext());
+                size--;
+            }
+            if (size == 0) {
+                head = null;
+                last = null;
+            }
         }
         return rc;
     }
 
     class LinkedListIterator<E> implements Iterator<E> {
-        LinkedList<E> list;
+        LinkedList2<E> list;
         int i = -1;
 
-        public LinkedListIterator(LinkedList<E> list) {
+        public LinkedListIterator(LinkedList2<E> list) {
             this.list = list;
         }
 

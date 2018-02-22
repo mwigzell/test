@@ -1,4 +1,6 @@
-package com.test.mwigzell.test;
+package com.test.mwigzell.test.test;
+
+import com.test.mwigzell.test.PriorityQueue;
 
 import org.junit.Test;
 

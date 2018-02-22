@@ -1,6 +1,8 @@
 package com.test.mwigzell.test;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by mark on 11/13/16.
@@ -16,16 +18,16 @@ public class MyHashTable<K, V> {
         }
     }
     int NBUCKETS = 6;
-    ArrayList<Tuple<K, V>> buckets[] = new ArrayList[NBUCKETS];
+    List<Tuple<K, V>> buckets[] = new LinkedList[NBUCKETS];
 
     public MyHashTable(int nbuckets) {
         NBUCKETS = nbuckets;
         for (int i = 0; i < NBUCKETS; i++) {
-            buckets[i] = new ArrayList<>();
+            buckets[i] = new LinkedList<>();
         }
     }
 
-    public void put(String k, String v) {
+    public void put(K k, V v) {
         int i = k.hashCode() % NBUCKETS;
         if (buckets[i].size() == 0) {
             buckets[i].add(new Tuple(k, v));

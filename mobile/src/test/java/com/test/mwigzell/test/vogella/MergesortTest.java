@@ -26,6 +26,15 @@ public class MergesortTest {
         }
     }
 
+    private boolean checkSorted() {
+        for (int i = 0; i < numbers.length - 1; i++) {
+            if (numbers[i] > numbers[i + 1]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Test
     public void testMergeSort() {
         long startTime = System.currentTimeMillis();
@@ -37,12 +46,7 @@ public class MergesortTest {
         long elapsedTime = stopTime - startTime;
         System.out.println("Mergesort " + elapsedTime);
 
-        for (int i = 0; i < numbers.length - 1; i++) {
-            if (numbers[i] > numbers[i + 1]) {
-                fail("Should not happen");
-            }
-        }
-        assertTrue(true);
+        assertTrue(checkSorted());
 
     }
 
@@ -56,13 +60,27 @@ public class MergesortTest {
             }
             Mergesort sorter = new Mergesort();
             sorter.sort(numbers);
-            for (int j = 0; j < numbers.length - 1; j++) {
-                if (numbers[j] > numbers[j + 1]) {
-                    fail("Should not happen");
-                }
-            }
-            assertTrue(true);
+
+            assertTrue(checkSorted());
         }
+    }
+
+    @Test
+    public void partialSortedList() {
+        numbers = new int[SIZE];
+        int i = 0;
+        numbers[i++] = 2;
+        numbers[i++] = 1;
+        numbers[i++] = 3;
+        numbers[i++] = 4;
+        numbers[i++] = 5;
+        numbers[i++] = 6;
+        numbers[i++] = 7;
+
+        Mergesort sorter = new Mergesort();
+        sorter.sort(numbers);
+
+        assertTrue(checkSorted());
     }
 
     @Test
@@ -73,12 +91,22 @@ public class MergesortTest {
         long elapsedTime = stopTime - startTime;
         System.out.println("Standard Java sort " + elapsedTime);
 
-        for (int i = 0; i < numbers.length - 1; i++) {
-            if (numbers[i] > numbers[i + 1]) {
-                fail("Should not happen");
-            }
-        }
-        assertTrue(true);
+
+        assertTrue(checkSorted());
     }
 
+    @Test
+    public void practice() {
+        for (int i = 0; i < 200; i++) {
+            numbers = new int[SIZE];
+            Random generator = new Random();
+            for (int a = 0; a < numbers.length; a++) {
+                numbers[a] = generator.nextInt(MAX);
+            }
+            com.test.mwigzell.practice.Mergesort sorter = new com.test.mwigzell.practice.Mergesort();
+            sorter.sort(numbers);
+
+            assertTrue(checkSorted());
+        }
+    }
 }

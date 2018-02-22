@@ -28,7 +28,7 @@ import java.util.List;
  1 5 10 10 5 1
 
  */
-class PascalTriangleGenerator {
+public class PascalTriangleGenerator {
     static int height;
 
     public static void main(String args[]) {

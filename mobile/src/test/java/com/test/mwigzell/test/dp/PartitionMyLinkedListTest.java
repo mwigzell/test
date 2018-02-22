@@ -11,7 +11,7 @@ import java.util.LinkedList;
  * Created by mwigzell on 2/4/18.
  */
 
-public class PartitionLinkedListTest {
+public class PartitionMyLinkedListTest {
     @Test
     public void testPartition() {
         PartitionLinkedList sut = new PartitionLinkedList();

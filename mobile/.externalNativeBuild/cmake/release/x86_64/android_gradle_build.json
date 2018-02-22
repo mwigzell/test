@@ -1,12 +1,9 @@
 
 {
-	"buildFiles" : 
-	[
-		"/Users/mwigzell/AndroidStudioProjects/test/mobile/src/main/cpp/CMakeLists.txt"
-	],
+	"buildFiles" : [ "/home/mark/Dev/src/test/mobile/src/main/cpp/CMakeLists.txt" ],
 	"cleanCommands" : 
 	[
-		"/Users/mwigzell/Library/Android/sdk/cmake/3.6.4111459/bin/cmake --build /Users/mwigzell/AndroidStudioProjects/test/mobile/.externalNativeBuild/cmake/release/x86_64 --target clean"
+		"/home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/cmake/3.6.4111459/bin/cmake --build /home/mark/Dev/src/test/mobile/.externalNativeBuild/cmake/release/x86_64 --target clean"
 	],
 	"cppFileExtensions" : [ "cpp" ],
 	"libraries" : 
@@ -15,27 +12,27 @@
 		{
 			"abi" : "x86_64",
 			"artifactName" : "native-lib",
-			"buildCommand" : "/Users/mwigzell/Library/Android/sdk/cmake/3.6.4111459/bin/cmake --build /Users/mwigzell/AndroidStudioProjects/test/mobile/.externalNativeBuild/cmake/release/x86_64 --target native-lib",
+			"buildCommand" : "/home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/cmake/3.6.4111459/bin/cmake --build /home/mark/Dev/src/test/mobile/.externalNativeBuild/cmake/release/x86_64 --target native-lib",
 			"buildType" : "release",
 			"files" : 
 			[
 				
 				{
-					"flags" : "  --target=x86_64-none-linux-android --gcc-toolchain=/Users/mwigzell/Library/Android/sdk/ndk-bundle/toolchains/x86_64-4.9/prebuilt/darwin-x86_64 --sysroot=/Users/mwigzell/Library/Android/sdk/ndk-bundle/sysroot  -Dnative_lib_EXPORTS -isystem /Users/mwigzell/Library/Android/sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include -isystem /Users/mwigzell/Library/Android/sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/libs/x86_64/include -isystem /Users/mwigzell/Library/Android/sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include/backward  -isystem /Users/mwigzell/Library/Android/sdk/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__=23 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC    -c ",
-					"src" : "/Users/mwigzell/AndroidStudioProjects/test/mobile/src/main/cpp/native-lib.cpp",
-					"workingDirectory" : "/Users/mwigzell/AndroidStudioProjects/test/mobile/.externalNativeBuild/cmake/release/x86_64"
+					"flags" : "  --target=x86_64-none-linux-android --gcc-toolchain=/home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/ndk-bundle/toolchains/x86_64-4.9/prebuilt/linux-x86_64 --sysroot=/home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/ndk-bundle/sysroot  -Dnative_lib_EXPORTS -isystem /home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include -isystem /home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/libs/x86_64/include -isystem /home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include/backward  -isystem /home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/ndk-bundle/sysroot/usr/include/x86_64-linux-android -D__ANDROID_API__=23 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security   -O2 -DNDEBUG  -fPIC    -c ",
+					"src" : "/home/mark/Dev/src/test/mobile/src/main/cpp/native-lib.cpp",
+					"workingDirectory" : "/home/mark/Dev/src/test/mobile/.externalNativeBuild/cmake/release/x86_64"
 				}
 			],
-			"output" : "/Users/mwigzell/AndroidStudioProjects/test/mobile/build/intermediates/cmake/release/obj/x86_64/libnative-lib.so",
-			"toolchain" : "5276495242211151036"
+			"output" : "/home/mark/Dev/src/test/mobile/build/intermediates/cmake/release/obj/x86_64/libnative-lib.so",
+			"toolchain" : "7895768046337870838"
 		}
 	},
 	"toolchains" : 
 	{
-		"5276495242211151036" : 
+		"7895768046337870838" : 
 		{
-			"cCompilerExecutable" : "/Users/mwigzell/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang",
-			"cppCompilerExecutable" : "/Users/mwigzell/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++"
+			"cCompilerExecutable" : "/home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang",
+			"cppCompilerExecutable" : "/home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++"
 		}
 	}
 }

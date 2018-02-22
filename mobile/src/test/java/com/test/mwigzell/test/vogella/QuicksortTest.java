@@ -105,4 +105,24 @@ public class QuicksortTest {
         }
         System.out.println();
     }
+
+    @Test
+    public void testPractice() {
+        for (Integer i : numbers) {
+            System.out.println(i + " ");
+        }
+        long startTime = System.currentTimeMillis();
+
+        com.test.mwigzell.practice.Quicksort sorter = new com.test.mwigzell.practice.Quicksort();
+        sorter.sort(numbers);
+
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        System.out.println("Quicksort " + elapsedTime);
+
+        if (!validate(numbers)) {
+            fail("Should not happen");
+        }
+        assertTrue(true);
+    }
 }

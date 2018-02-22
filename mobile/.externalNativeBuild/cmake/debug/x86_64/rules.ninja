@@ -25,7 +25,7 @@ rule CUSTOM_COMMAND
 rule CXX_COMPILER__native-lib
   depfile = $DEP_FILE
   deps = gcc
-  command = /Users/mwigzell/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++  --target=x86_64-none-linux-android --gcc-toolchain=/Users/mwigzell/Library/Android/sdk/ndk-bundle/toolchains/x86_64-4.9/prebuilt/darwin-x86_64 --sysroot=/Users/mwigzell/Library/Android/sdk/ndk-bundle/sysroot  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $IN_ABS
+  command = /home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++  --target=x86_64-none-linux-android --gcc-toolchain=/home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/ndk-bundle/toolchains/x86_64-4.9/prebuilt/linux-x86_64 --sysroot=/home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/ndk-bundle/sysroot  $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $IN_ABS
   description = Building CXX object $out
 
 
@@ -33,7 +33,7 @@ rule CXX_COMPILER__native-lib
 # Rule for linking CXX shared library.
 
 rule CXX_SHARED_LIBRARY_LINKER__native-lib
-  command = $PRE_LINK && /Users/mwigzell/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++  --target=x86_64-none-linux-android --gcc-toolchain=/Users/mwigzell/Library/Android/sdk/ndk-bundle/toolchains/x86_64-4.9/prebuilt/darwin-x86_64 --sysroot=/Users/mwigzell/Library/Android/sdk/ndk-bundle/sysroot -fPIC $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -shared $SONAME_FLAG$SONAME -o $TARGET_FILE $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD
+  command = $PRE_LINK && /home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++  --target=x86_64-none-linux-android --gcc-toolchain=/home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/ndk-bundle/toolchains/x86_64-4.9/prebuilt/linux-x86_64 --sysroot=/home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/ndk-bundle/sysroot -fPIC $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -shared $SONAME_FLAG$SONAME -o $TARGET_FILE $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
 
@@ -42,7 +42,7 @@ rule CXX_SHARED_LIBRARY_LINKER__native-lib
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /Users/mwigzell/Library/Android/sdk/cmake/3.6.4111459/bin/cmake -H/Users/mwigzell/AndroidStudioProjects/test/mobile/src/main/cpp -B/Users/mwigzell/AndroidStudioProjects/test/mobile/.externalNativeBuild/cmake/debug/x86_64
+  command = /home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/cmake/3.6.4111459/bin/cmake -H/home/mark/Dev/src/test/mobile/src/main/cpp -B/home/mark/Dev/src/test/mobile/.externalNativeBuild/cmake/debug/x86_64
   description = Re-running CMake...
   generator = 1
 
@@ -51,7 +51,7 @@ rule RERUN_CMAKE
 # Rule for cleaning all built files.
 
 rule CLEAN
-  command = /Users/mwigzell/Library/Android/sdk/cmake/3.6.4111459/bin/ninja -t clean
+  command = /home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/cmake/3.6.4111459/bin/ninja -t clean
   description = Cleaning all built files...
 
 
@@ -59,6 +59,6 @@ rule CLEAN
 # Rule for printing all primary targets available.
 
 rule HELP
-  command = /Users/mwigzell/Library/Android/sdk/cmake/3.6.4111459/bin/ninja -t targets
+  command = /home/mark/Dev/tools/android-sdk-linux_x86-1.6_r1/cmake/3.6.4111459/bin/ninja -t targets
   description = All primary targets available:
 
