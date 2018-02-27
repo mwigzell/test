@@ -1,3 +1,0 @@
-/home/mark/Dev/src/test/mobile/.externalNativeBuild/cmake/release/x86/CMakeFiles/rebuild_cache.dir
-/home/mark/Dev/src/test/mobile/.externalNativeBuild/cmake/release/x86/CMakeFiles/edit_cache.dir
-/home/mark/Dev/src/test/mobile/.externalNativeBuild/cmake/release/x86/CMakeFiles/native-lib.dir

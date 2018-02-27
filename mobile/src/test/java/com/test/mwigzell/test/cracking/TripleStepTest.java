@@ -14,6 +14,12 @@ public class TripleStepTest {
     @Test
     public void test() {
         TripleStep tripleStep = new TripleStep();
-        assertEquals(4, tripleStep.count(37));
+        assertEquals(13, tripleStep.count(5));
+    }
+
+    @Test
+    public void testPractice() {
+        com.test.mwigzell.practice.TripleStep tripleStep = new com.test.mwigzell.practice.TripleStep();
+        assertEquals(12, tripleStep.count(7));
     }
 }
