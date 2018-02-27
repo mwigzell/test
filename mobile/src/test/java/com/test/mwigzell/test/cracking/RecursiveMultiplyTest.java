@@ -17,4 +17,11 @@ public class RecursiveMultiplyTest {
 
         assertEquals(77, rm.mult(11, 7));
     }
+
+    @Test
+    public void testPractice() {
+        com.test.mwigzell.practice.RecursiveMultiply rm = new com.test.mwigzell.practice.RecursiveMultiply();
+
+        assertEquals(77, rm.mult(11, 7));
+    }
 }

@@ -25,6 +25,9 @@ public class PowerSetTest {
         ArrayList<ArrayList<Integer>> result = powerSet.run(set, 0);
 
         for (ArrayList<Integer> subset : result) {
+            if (subset.size() == 0) {
+                System.out.print("empty");
+            }
             for (Integer i : subset) {
                 System.out.print(String.format("%d ", i));
             }

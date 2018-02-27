@@ -2,34 +2,24 @@ package com.test.mwigzell.design;
 
 /**
  * From Algorithm Design : distance editing using dynamic programing
- * variant for LCS problem: rig the match() so substitutions are not chosen
+ * variant for embedded substring problem: set up rowInit so cost of starting
+ * match anywhere is same. Adjust goalCell to find lowest cost in the match row.
+ * Note: pass in the substring to match as "s", and the text as "t"
  */
-// NOTE: THIS DOESN'T work as advertised, not sure why.
 
-public class LongestCommonSubsequence extends ApproxMatch {
+public class SubstringMatch extends ApproxMatch {
 
-    public LongestCommonSubsequence() {
+    public SubstringMatch() {
        super();
     }
 
-    /*
+
     @Override
     protected void rowInit(int i) {
         m[0][i].cost = 0;
         m[0][i].parent = UNDEFINED;
     }
-    */
 
-    @Override
-    protected int match(char c, char t) {
-        if (c == t) {
-            return 0;
-        } else {
-            return MAXLEN;
-        }
-    }
-
-    /*
     @Override
     protected Cell goalCell(String s, String t) {
         int i, j;
@@ -41,15 +31,7 @@ public class LongestCommonSubsequence extends ApproxMatch {
                 j = k;
             }
         }
-        reconstructPath(s, t, i, j);
-        return m[i][j];
-    }
-    */
-    @Override
-    protected Cell goalCell(String s, String t) {
-        int i = 7, j = 9;
-
-
+        System.out.println("GOAL CELL=m["+ i + "] [" + j + "]");
         reconstructPath(s, t, i, j);
         return m[i][j];
     }
