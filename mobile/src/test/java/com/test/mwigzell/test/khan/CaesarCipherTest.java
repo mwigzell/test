@@ -17,13 +17,4 @@ public class CaesarCipherTest {
         System.out.println("Decrypted1: " + cipher.decrypt(encrypted1, 7));
         System.out.println("Decrypted2: " + cipher.decrypt(encrypted2, 3));
     }
-
-    @Test
-    public void testPoly() {
-        CaesarCipher cipher = new CaesarCipher();
-        String e = "Klkbnqlcytfysryucocphgbdizzfcmjwkuchzyeswfogmmetwwossdchrzyldsbwnydednzwnefydthtddbojice" +
-                "mlucdygicczhoadrzcylwadsxpilpiecskomoltejtkmqqymehpmmjxyolwpeewjckznpccpsvsxauyodhalmrioc" +
-                "wpelwbcniyfxmwjcemcyrazdqlsomdbfljwnbijxpddsyoehxpceswtoxwbleecsaxcnuetzywfn";
-        System.out.println("Poly: " + cipher.decrypt(e));
-    }
 }
