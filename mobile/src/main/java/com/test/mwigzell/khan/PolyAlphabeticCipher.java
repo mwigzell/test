@@ -79,13 +79,18 @@ public class PolyAlphabeticCipher {
         System.out.println(String.format("Encrypting %s using keyword %s", plain, keyword));
         for (int i = 0; i < plain.length(); i++) {
             int keyIndex = i % keyword.length();
-            int keyShift = table.get(keyword.charAt(keyIndex));
-            char p = plain.charAt(i);
-            int n = table.get(p);
-            n += keyShift;
-            char e = alphabet.charAt((n-1) % MAXLETTERS);
-            builder.append(e);
-            System.out.println(String.format("Encrypt %c from %c using keyShift %2d, keyIndex %d", e, p, keyShift, keyIndex));
+            char kc = keyword.charAt(keyIndex);
+            if (kc != ' ') {
+                int keyShift = table.get(kc);
+                char p = plain.charAt(i);
+                int n = table.get(p);
+                n += keyShift;
+                char e = alphabet.charAt((n - 1) % MAXLETTERS);
+                builder.append(e);
+                System.out.println(String.format("Encrypt %c from %c using keyShift %2d, keyIndex %d", e, p, keyShift, keyIndex));
+            } else {
+                builder.append(plain.charAt(i));
+            }
         }
         return builder.toString();
     }
@@ -97,12 +102,17 @@ public class PolyAlphabeticCipher {
             char c = Character.toLowerCase(encrypted.charAt(j));
             int n = table.get(c);
             int keyIndex = j % keyword.length();
-            int keyShift = table.get(keyword.charAt(keyIndex));
-            n -= keyShift;
-            n += MAXLETTERS;
-            char p = alphabet.charAt((n-1) % MAXLETTERS);
-            builder.append(p);
-            System.out.println(String.format("Decrypt %c from %c using keyShift %2d keyIndex %d", p, c, keyShift, keyIndex));
+            char kc = keyword.charAt(keyIndex);
+            if (kc != ' ') {
+                int keyShift = table.get(kc);
+                n -= keyShift;
+                n += MAXLETTERS;
+                char p = alphabet.charAt((n - 1) % MAXLETTERS);
+                builder.append(p);
+                System.out.println(String.format("Decrypt %c from %c using keyShift %2d keyIndex %d", p, c, keyShift, keyIndex));
+            } else {
+                builder.append(c);
+            }
         }
         return builder.toString();
     }

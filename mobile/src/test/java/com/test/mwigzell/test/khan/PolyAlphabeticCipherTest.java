@@ -24,7 +24,7 @@ public class PolyAlphabeticCipherTest {
         PolyAlphabeticCipher.Frequency messageFrequency = cipher.buildFrequency(message);
         System.out.print("Frequency:\n" + newspaperFrequency.compare(messageFrequency));
         System.out.print("Distribution:\n" + cipher.buildTextDistribution(message));
-        String keyword = "hooeeakonnedh";
+        String keyword = "hack";
         System.out.println(String.format("Decrypt with keyword: " + keyword + "\n" + cipher.decrypt(message, keyword)));
 
     }

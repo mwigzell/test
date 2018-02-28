@@ -20,6 +20,6 @@ public class TripleStepTest {
     @Test
     public void testPractice() {
         com.test.mwigzell.practice.TripleStep tripleStep = new com.test.mwigzell.practice.TripleStep();
-        assertEquals(12, tripleStep.count(7));
+        assertEquals(44, tripleStep.count(7));
     }
 }
