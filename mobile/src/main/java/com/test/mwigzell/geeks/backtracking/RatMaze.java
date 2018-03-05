@@ -3,6 +3,11 @@ package com.test.mwigzell.geeks.backtracking;
 /* Java program to solve Rat in a Maze problem using
    backtracking */
 
+
+import java.awt.Point;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class RatMaze
 {
     final int N = 4;
@@ -19,14 +24,18 @@ public class RatMaze
             System.out.println();
         }
     }
-
-    /* A utility function to check if x,y is valid
-        index for N*N maze */
-    boolean isSafe(int maze[][], int x, int y)
-    {
-        // if (x,y outside maze) return false
-        return (x >= 0 && x < N && y >= 0 &&
-                y < N && maze[x][y] == 1);
+    boolean isDestination(int[][] maze, int r, int c) {
+        if (r == maze.length -1 && c == maze[c].length -1) {
+            return true;
+        }
+        return false;
+    }
+    boolean isFree(int[][] maze, int r, int c) {
+        if (r >= 0 && r < maze.length && c >= 0 && c < maze[r].length &&
+                maze[r][c] == 1) {
+            return true;
+        }
+        return false;
     }
 
     /* This function solves the Maze problem using
@@ -56,39 +65,25 @@ public class RatMaze
 
     /* A recursive utility function to solve Maze
        problem */
-    boolean solveMazeUtil(int maze[][], int x, int y,
-                          int sol[][])
-    {
-        // if (x,y is goal) return true
-        if (x == N - 1 && y == N - 1)
-        {
-            sol[x][y] = 1;
-            return true;
+    boolean solveMazeUtil(int maze[][], int r, int c, int sol[][]) {
+        boolean rc = false;
+        if (isFree(maze, r, c)) {
+           if (isDestination(maze, r, c)) {
+               rc = true;
+           } else {
+               Queue<Point> q = new LinkedList<>();
+               q.add(new Point(r+1, c));
+               q.add(new Point(r,c+1));
+               while(!q.isEmpty() && rc == false) {
+                   Point p = q.poll();
+                   rc = solveMazeUtil(maze, p.x, p.y, sol);
+               }
+           }
         }
-
-        // Check if maze[x][y] is valid
-        if (isSafe(maze, x, y) == true)
-        {
-            // mark x,y as part of solution path
-            sol[x][y] = 1;
-
-            /* Move forward in x direction */
-            if (solveMazeUtil(maze, x + 1, y, sol))
-                return true;
-
-            /* If moving in x direction doesn't give
-               solution then  Move down in y direction */
-            if (solveMazeUtil(maze, x, y + 1, sol))
-                return true;
-
-            /* If none of the above movements work then
-               BACKTRACK: unmark x,y as part of solution
-               path */
-            sol[x][y] = 0;
-            return false;
+        if (rc) {
+            sol[r][c] = 1;
         }
-
-        return false;
+        return rc;
     }
 
     public static void main(String args[])
