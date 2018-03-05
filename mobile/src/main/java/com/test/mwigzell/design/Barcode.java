@@ -1,6 +1,7 @@
 package com.test.mwigzell.design;
 
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 //return a String containing minimum operation sequence to
@@ -20,7 +21,14 @@ public class Barcode {
     static final int SHIFT = 2;
     static final int LATCH = 3;
 
-    int [][] m; // m x i cells for the mode and character cost
+    class Cost {
+        int cost;
+        public Cost(int cost) {
+            this.cost = cost;
+        }
+    }
+
+    Cost [][] m; // m x i cells for the mode and character cost
 
     /**
      * determine mode set of c
@@ -50,7 +58,7 @@ public class Barcode {
             case LATCH:
                 return "LATCH";
             default:
-                throw new IllegalStateException("Unknown op:" + op);
+                return "UNDEF";
         }
     }
 
@@ -72,8 +80,8 @@ public class Barcode {
         int min = Integer.MAX_VALUE;
         int idx = -1;
         for(int r = 1; r < m.length; r++) {
-            if (m[r][n] < min) {
-                min = m[r][n];
+            if (m[r][n].cost < min) {
+                min = m[r][n].cost;
                 idx = r;
             }
         }
@@ -93,64 +101,49 @@ public class Barcode {
 
     String reconstructPath(String s) {
         StringBuilder builder = new StringBuilder();
-        Stack<Operation> ops = new Stack<>();
+        Queue<Operation> ops = new LinkedList<>();
 
-        int prevMode = UNDEFINED;
-        for (int c = m[0].length-1; c > 0; c--) {
+        int curMode = UNDEFINED;
+        for (int c = 1; c < m[0].length; c++) {
             int minIdx = minCost(c);
             char ch = s.charAt(c);
             int charMode = mode(ch);
-            if (c == m[0].length - 1) {
-                prevMode = charMode;
-            }
-            // walking back from end of matrix, push the LATCH closer to
-            // the front if the mode of the minimum cost matches the mode of the character
-            // or the previous LATCH mode is same as the mode of the character
-            int op = UNDEFINED;
-            if (minIdx == charMode) {
-                op = LATCH;
-                prevMode = charMode;
-            } else {
-                if (prevMode != minIdx) {
+            int op = MATCH;
+            if (curMode != minIdx) {
+                // mode must switch, either LATCH or SHIFT
+                if (c < m[minIdx].length -1 && (mode(s.charAt(c+1)) == minIdx)) {
+                    op = LATCH;
+                    curMode = minIdx;
+                } else if(charMode != curMode) {
                     op = SHIFT;
-                    if (prevMode == charMode) {
-                        op = LATCH;
-                    }
                 }
             }
-            ops.push(new Operation(op, ch, charMode));
+
+            ops.add(new Operation(op, ch, charMode));
         }
 
-        int mode = UNDEFINED;
         while(!ops.isEmpty()) {
-            Operation op = ops.pop();
-
-            //NOTE: the output looks right, but the underlying Operation
-            // instances do not contain the corresponding MATCH operation,
-            // this needs to be cleaned up if its to be made useful
+            Operation op = ops.poll();
             String out = String.format("%s %12s: %c\n",
-                    mode == op.mode ? "     " : opToString(op.op),
+                    opToString(op.op),
                     modeToString(op.mode),
                     op.ch);
             builder.append(out);
-            if (op.op == LATCH ) {
-                mode = op.mode;
-            }
         }
         return builder.toString();
     }
 
-    void initRC(int[][] m) {
+    void initRC() {
         for (int r = 0; r < m.length; r++) {
             for (int c = 0; c < m[r].length; c++) {
                 if (r == 0 || c == 0) {
-                    m[r][c] = UNDEFINED;
+                    m[r][c] = new Cost(UNDEFINED);
                 }
             }
         }
     }
 
-    void printM(String s) {
+    void printCost(String s) {
         for (int i = 0; i < s.length(); i++) {
             System.out.print(String.format(" %c ", s.charAt(i)));
         }
@@ -158,31 +151,35 @@ public class Barcode {
 
         for (int r = 1; r < m.length; r++) {
             for (int c = 0; c < m[r].length; c++) {
-                System.out.print(String.format("%2d ", m[r][c]));
+                System.out.print(String.format("%2d ", m[r][c].cost));
             }
             System.out.println("");
         }
     }
 
-    int cost(int mode, char c) {
-        if (mode == mode(c)) {
-            return 0;
+    Cost cost(int prevMode, int row, int col, String s) {
+        char c = s.charAt(col);
+        int cost = m[prevMode][col-1].cost;
+        if (row == mode(c)) {
+            return new Cost(cost + 0); // match
+        } else {
+            return new Cost(cost + 1); // latch or shift
         }
-        return 1;
     }
 
     public String compute(String s) {
         String s1 = " " + s;
-        m = new int[MAX_MODE + 1][s1.length()]; // leave 0 indices for initialization
-        initRC(m);
+        m = new Cost[MAX_MODE + 1][s1.length()]; // leave 0 indices for initialization
+        initRC();
 
         for (int c = 1; c < s1.length(); c++) {
             for (int r = 1; r < MAX_MODE + 1; r++) {
-                char ch = s1.charAt(c);
-                m[r][c] = m[r][c - 1] + cost(r, ch);
+                int mode = c == 1 ? r : minCost(c-1);
+                m[r][c] = cost(mode, r, c, s1);
             }
         }
-        printM(s1);
+        printCost(s1);
+        System.out.println("");
         return reconstructPath(s1);
     }
 }

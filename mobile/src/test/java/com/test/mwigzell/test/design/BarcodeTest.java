@@ -9,7 +9,7 @@ import org.junit.Test;
  */
 
 public class BarcodeTest {
-    String text = "abcDE@FG@ghijklm";
+    String text = "ab#CD@EF01234";
 
     @Test
     public void test() {
