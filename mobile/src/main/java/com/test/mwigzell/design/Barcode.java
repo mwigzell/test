@@ -103,6 +103,10 @@ public class Barcode {
         StringBuilder builder = new StringBuilder();
         Queue<Operation> ops = new LinkedList<>();
 
+        // TBD: since we are not really evaluating which is better, SHIFT or LATCH
+        // we can't possibly find the best solution. How could the matrix be updated to
+        // incrementally find the best solution, or should we regress down two pathways and
+        // take the min cost of either way?
         int curMode = UNDEFINED;
         for (int c = 1; c < m[0].length; c++) {
             int minIdx = minCost(c);
@@ -160,6 +164,7 @@ public class Barcode {
     Cost cost(int prevMode, int row, int col, String s) {
         char c = s.charAt(col);
         int cost = m[prevMode][col-1].cost;
+        //cost = m[row][col-1].cost; // TBD: the costing ain't right: try this one
         if (row == mode(c)) {
             return new Cost(cost + 0); // match
         } else {
